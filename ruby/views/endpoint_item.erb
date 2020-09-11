@@ -1,0 +1,63 @@
+<%
+  badge_class = if method.eql?("GET") then
+    'badge-info'
+  elsif method.eql?('POST') then
+    'badge-primary'
+  else
+    'badge-danger'
+  end
+%>
+<div class="container">
+  <div class="row bg-light rounded pt-2 pb-2 d-flex align-items-center">
+    <div class="col-sm-1">
+      <div class="badge pt-1 pb-1 pl-4 pr-4 <%= badge_class %>"><%= method %></div>
+    </div>
+    <div class="col-sm-9">
+      <span><%= endpoint %></span>
+    </div>
+    <div class="col-sm-2 d-flex justify-content-end">
+      <button class="btn btn-purple btn-outline btn-primary btn-sm" type="button" data-target="#<%= panel_target %>" data-toggle="collapse" @click.prevent="fetchRequest('<%= record %>')">Send Request</button>
+    </div>
+  </div>
+  <div class="row collapse pb-2" id=<%= panel_target %>>
+    <div class="col-sm-12 d-none panel-results p-0">
+      <hr class="mb-2 mt-0">
+      <div class="row">
+        <div class="col-sm-3">
+          status:
+        </div>
+        <div class="col-sm-9">
+          <code class="results-status"></code>
+        </div>
+      </div>
+      <hr class="my-2">
+      <div class="row">
+        <div class="col-sm-3">
+          data:
+        </div>
+        <div class="col-sm-9">
+          <pre>
+            <code class="d-flex results-data">
+            </code>
+          </pre>
+        </div>
+      </div>
+      <hr class="my-2">
+      <div class="row">
+        <div class="col-sm-3">
+          Formatted Data Table:
+        </div>
+        <div class="col-sm-9">
+          <%= erb table_partial.to_sym %>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 show panel-loader">
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border text-primary">
+          <div class="sr-only">Loading...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

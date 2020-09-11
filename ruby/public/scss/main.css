@@ -1,0 +1,53 @@
+.get_token_btn {
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+  background: #6236ff;
+  color: white;
+  padding: 0.5em 2em;
+  width: 25rem;
+  text-align: center;
+}
+
+.get_token_form {
+  width: 100%;
+}
+.get_token_form input {
+  width: 40%;
+  border: none;
+  border-bottom: 1px solid #eaeaea;
+}
+.get_token_form button {
+  background: #6236ff;
+  color: white;
+  font-weight: 700;
+  padding: 0.2em 1.2em;
+  border: none;
+  margin: 0.5em 1em;
+}
+
+.btn-purple {
+  background: #6236ff;
+}
+.btn-purple:hover {
+  background: #6d57bb;
+}
+
+.token_button {
+  display: block;
+  text-decoration: underline;
+  font-weight: bold;
+  margin-top: 0.5em;
+  cursor: pointer;
+  color: green;
+}
+
+button.greenBtn {
+  background: green;
+}
+
+input.access_token_input {
+  width: 70%;
+}
+
+/*# sourceMappingURL=main.css.map */
