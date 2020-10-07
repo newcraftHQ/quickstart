@@ -7,8 +7,8 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
     <script src="https://connect.newcraft.io/sandbox/nc-connect.js"></script>
+    <!-- <script src="http://development.newcraft-dev.com:8080/build/development/nc-connect.js"></script> -->
     <link rel="shortcut icon" type="image/png" href="icon.svg"/>
-    <%# <link rel="stylesheet" type="text/css" href="style.css"> %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="scss/main.css">      
   </head>
@@ -17,26 +17,22 @@
     <main id="app" class="container">
       <div class="jumbotron jumbotron-fluid bg-white pb-2 mb-2">
         <div class="container">
-          <h1 class="display-5 font-weight-light">NewCraft Quickstart</h1>
+          <h1 class="display-5 font-weight-light">NewCraft Quickstart - <b>Ruby</b></h1>
           <p class="lead">Welcome to NewCraft quickstart! You successfuly linked your account</p>
           <hr class="my-4">
-          <p v-if="!openTokenForm" @click.prevent="openConnectTokenForm" class="get_token_btn">Get Connect Token</p>
+          <p class="get_token_btn" @click.prevent="getConnectToken('<%= @company_name %>')">
+            <span v-if="submittingConnect" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Connect
+          </p>
+          <p class="already_have_token" @click.prevent="addAccessToken">Already have Access Token?</p>
 
-          <form v-else @submit.prevent="getConnectToken" class="get_token_form">
-            <input v-model="client_id" type="text" placeholder="Client ID">
-            <input v-model="client_secret" type="text" placeholder="Client Secret">
-            <button type="submit">Get Token</button>
-            <a class="token_button" @click.prevent="openUseCredentials">Already have Token?</a>
+          <form v-show="addingToken || credentialsAdded" class="get_token_form">
+            <input v-model="access_token" type="text" placeholder="Access Token" />
           </form>
 
-          <form v-show="useCredentials" class="get_token_form">
-            <input v-model="client_id" type="text" placeholder="Client ID">
-            <input v-model="client_secret" type="text" placeholder="Client Secret">
-            <input v-model="access_token" class="access_token_input" type="text" placeholder="Access Token">
-            <button v-show="credentialsAdded" class="greenBtn" disabled>Credentials Added <small>You can send requests now</small></button>
-          </form>
-          <br />
-          <br />
+          <button v-show="credentialsAdded" class="greenBtn" disabled>Credentials Added <small>You can send requests now</small></button>
+
+          <br/>
           <p>
             Choose one of the endpoints below to start exploring NewCraft's API
           </p>
@@ -49,6 +45,9 @@
         <li class="nav-item">
           <a href="#jobs-tab" class="nav-link" data-toggle="tab">Jobs</a>
         </li>
+        <li class="nav-item">
+          <a href="#payrolls-tab" class="nav-link" data-toggle="tab">Payrolls</a>
+        </li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane fade show active" id="employees-tab">
@@ -60,118 +59,14 @@
         <div class="tab-pane fade" id="orgs-tab">
           <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/orgs/get", panel_target: "orgs-get-panel", table_partial: 'tables/orgs_table', record: 'orgs' } %>
         </div>
-        <div class="tab-pane fade" id="payroll-tab">
-          <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/payroll/get", panel_target: "payroll-get-panel", table_partial: 'tables/payroll_table', record: 'payroll' } %>
+        <div class="tab-pane fade" id="payrolls-tab">
+          <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/payrolls/get", panel_target: "payrolls-get-panel", table_partial: 'tables/payrolls_table', record: 'payrolls' } %>
         </div>
       </div>
     </main>
-    <script src="main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-    <script>
-      var fakeData = vueApp.fakeData
-
-      var resultsTable = {
-        singleBase: (attr) => `<div class="col-sm-10">${attr}</div>`,
-        dateBase: (date) => resultsTable.singleBase(new Date(date).toLocaleString('en', { dateStyle: 'short'})),
-        arrayBase: (data, attr) => resultsTable.singleBase(data.map((d) => '<span>'+ d[attr] + '</span><br/>').join('')),
-        linkBase: (url) => resultsTable.singleBase(`<a href="${url}" target="_blank">Link</a>`),
-        arrayComplex: (data, attrs) => `<div class="col-sm-10">${data.map((d) => 
-          attrs.map((a, i) =>
-            `<div class="row m-0 pt-2 pb-2 ${i % 2 === 0 ? 'bg-light' : 'bg-white'}"><div class="col-sm-2 font-weight-bold">${a}</div>
-            ${resultsTable.singleBase(d[a])}</div><hr class="m-0" />`).join('')
-            ).join('')
-          }`
-      }
-
-      $('.collapse').on('show.bs.collapse', function() {
-        var $target = $(this)
-        var type = $target.attr('id').replace('-get-panel', '')
-        var $button = $('[data-target=\"#' + $target.attr('id') + '\"]')
-
-        setTimeout(function() {
-          $target.find('.results-status').text(fakeData[type].status)
-          $target.find('.results-data').text(JSON.stringify(fakeData[type].data, undefined, 2))
-          $target.find('.panel-loader').hide()
-          $target.find('.panel-results').removeClass('d-none')
-          populateTable(type, fakeData[type].data)
-        }, 1000)
-      })
-      
-      $('.collapse').on('hidden.bs.collapse', function() {
-        var $target = $(this)
-        var type = $target.attr('id').replace('-get-panel', '')
-        $target.find('.' + type + '-table > .row > .col-sm-10').remove()
-        $target.find('.panel-results').addClass('d-none')
-        $target.find('.panel-loader').show()
-      })
-
-      function populateTable(type, data) {
-        if (type === 'employees') populateEmployeesTable(data)
-        if (type === 'jobs') populateJobsTable(data)
-        if (type === 'hires') populateHiresTable(data)
-        if (type === 'orgs') populateOrgsTable(data)
-        if (type === 'payroll') populatePayrollTable(data)
-      }
-
-      function populateEmployeesTable(data) {
-        var $table = $('.employees-table')
-        data.forEach(function(d) {
-          $table.find('.employees-id').append(resultsTable.singleBase(d.id))
-          $table.find('.employees-first_name').append(resultsTable.singleBase(d.first_name))
-          $table.find('.employees-last_name').append(resultsTable.singleBase(d.last_name))
-          $table.find('.employees-title').append(resultsTable.singleBase(d.title))
-          $table.find('.employees-start_date').append(resultsTable.dateBase(d.start_date))
-          $table.find('.employees-end_date').append(resultsTable.dateBase(d.end_date))
-        })
-        $table.removeClass('d-none')
-      }
-
-      function populateJobsTable(data) {
-        var $table = $('.jobs-table')
-        data.forEach(function(d) {
-          $table.find('.jobs-id').append(resultsTable.singleBase(d.id))
-          $table.find('.jobs-title').append(resultsTable.singleBase(d.title))
-          $table.find('.jobs-description').append(resultsTable.singleBase(d.description))
-          $table.find('.jobs-requirements').append(resultsTable.arrayBase(d.requirements, 'description'))
-          $table.find('.jobs-location').append(resultsTable.singleBase(d.location))
-          $table.find('.jobs-date').append(resultsTable.dateBase(d.date))
-        })
-        $table.removeClass('d-none')
-      }
-
-      function populateHiresTable(data) {
-        var $table = $('.hires-table')
-        data.forEach(function(d) {
-          $table.find('.hires-id').append(resultsTable.singleBase(d.id))
-          $table.find('.hires-name').append(resultsTable.singleBase(d.name))
-          $table.find('.hires-role').append(resultsTable.singleBase(d.role))
-          $table.find('.hires-status').append(resultsTable.singleBase(d.status))
-          $table.find('.hires-resume').append(resultsTable.linkBase(d.resume))
-          $table.find('.hires-date').append(resultsTable.dateBase(d.date))
-        })
-        $table.removeClass('d-none')
-      }
-
-      function populateOrgsTable(data) {
-        var $table = $('.orgs-table')
-        $table.find('.orgs-manager').append(resultsTable.singleBase(data.manager))
-        $table.find('.orgs-team-id').append(resultsTable.singleBase(data.team_id))
-        $table.find('.orgs-headcount').append(resultsTable.singleBase(data.headcount))
-        $table.removeClass('d-none')
-      }
-
-      function populatePayrollTable(data) {
-        var $table = $('.payroll-table')
-        $table.find('.payroll-member-id').append(resultsTable.singleBase(data.member_id))
-        $table.find('.payroll-name').append(resultsTable.singleBase(data.name))
-        $table.find('.payroll-birthdate').append(resultsTable.dateBase(data.birthdate))
-        $table.find('.payroll-salary').append(resultsTable.singleBase(data.salary))
-        $table.find('.payroll-benefits').append(resultsTable.arrayComplex(data.benefits, ['id', 'name']))
-        $table.find('.payroll-deductions').append(resultsTable.arrayBase(data.deductions, 'amount'))
-        $table.removeClass('d-none')
-      }
-    </script>
+    <script src="js/vue.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>

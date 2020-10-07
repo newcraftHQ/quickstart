@@ -16,7 +16,14 @@
       <span><%= endpoint %></span>
     </div>
     <div class="col-sm-2 d-flex justify-content-end">
-      <button class="btn btn-purple btn-outline btn-primary btn-sm" type="button" data-target="#<%= panel_target %>" data-toggle="collapse" @click.prevent="fetchRequest('<%= record %>')">Send Request</button>
+      <button 
+        id="http_request_btn"
+        class="btn btn-purple btn-outline btn-primary btn-sm"
+        type="button"
+        @click.prevent="fetchRequest('<%= record %>')"
+        data-target="#<%= panel_target %>"
+        data-toggle="collapse"
+      >Send Request</button>
     </div>
   </div>
   <div class="row collapse pb-2" id=<%= panel_target %>>

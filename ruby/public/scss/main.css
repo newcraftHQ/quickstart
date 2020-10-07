@@ -4,8 +4,8 @@
   border-radius: 5px;
   background: #6236ff;
   color: white;
-  padding: 0.5em 2em;
-  width: 25rem;
+  padding: 0.5em 1em;
+  width: 15rem;
   text-align: center;
 }
 
@@ -44,10 +44,17 @@
 
 button.greenBtn {
   background: green;
+  color: white;
+  margin-top: 10px;
 }
 
 input.access_token_input {
   width: 70%;
+}
+
+.already_have_token {
+  cursor: pointer;
+  font-weight: 700;
 }
 
 /*# sourceMappingURL=main.css.map */
