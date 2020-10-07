@@ -1,4 +1,5 @@
 # NewCraft Ruby quickstart
+
 To run this application locally, follow the steps indicated below:
 
 - Install the app dependencies
@@ -6,4 +7,4 @@ To run this application locally, follow the steps indicated below:
 - Populate the `.env` file with data provided from [NewCraft Support](support@newcraft.io)
 - Initialize the app
   - `ruby app.rb`
-- Open `http://localhost:4657`
+- Open `http://localhost:4567`
