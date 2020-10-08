@@ -8,4 +8,4 @@ To run this application locally, follow the steps indicated below:
 - For Automatically restarting server after local changes
   - `gem install rerun`
   - `rerun ruby app.rb`
-- Open `http://localhost:4657`
+- Open `http://localhost:4567`
