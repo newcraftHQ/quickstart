@@ -5,4 +5,4 @@ This repository accompanies NewCraft's [quickstart guide](https://newcraft.readm
 Here you'll find full example integration apps using our client libraries:
 - [Ruby](https://github.com/NewCraftHQ/quickstart/tree/master/ruby)
 
-- Create and Populate your `.env` file with your credentials using format from `.env.example`
+- Create and populate your `.env` file with your credentials using format from `.env.example`
