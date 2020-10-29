@@ -9,6 +9,8 @@ require 'httparty'
 
 require_relative 'lib/json_response'
 
+API_ENV = ENV['API_ENV']
+
 API_URL = ENV['DEV_ENV'] === 'development' ?
             'http://development.newcraft-dev.com:3000/api/v1'
             : 'https://development.newcraft.io/api/v1'
@@ -54,6 +56,8 @@ end
 get '/:record/fetch_resource/:access_token' do
   content_type :json
 
+  NEW_API_URL = API_URL.dup.sub! 'development', 'sandbox' if API_ENV === 'sandbox'
+
   return unless ENV['CLIENT_ID']
   return unless ENV['CLIENT_SECRET']
   return unless params[:access_token]
@@ -67,6 +71,6 @@ get '/:record/fetch_resource/:access_token' do
     }
   }
 
-  response = HTTParty.post(API_URL + '/' + params[:record] + '/get', options)
+  response = HTTParty.post(NEW_API_URL + '/' + params[:record] + '/get', options)
   JsonResponse.parsing(response.parsed_response)
 end
