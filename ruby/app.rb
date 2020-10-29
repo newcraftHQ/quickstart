@@ -56,7 +56,11 @@ end
 get '/:record/fetch_resource/:access_token' do
   content_type :json
 
-  NEW_API_URL = API_URL.dup.sub! 'development', 'sandbox' if API_ENV === 'sandbox'
+  if API_ENV === 'sandbox'
+    NEW_API_URL = API_URL.dup.sub! 'development', 'sandbox'
+  else
+    NEW_API_URL = API_URL
+  end
 
   return unless ENV['CLIENT_ID']
   return unless ENV['CLIENT_SECRET']
