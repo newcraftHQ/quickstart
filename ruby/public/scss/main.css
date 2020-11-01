@@ -1,3 +1,7 @@
+h1 {
+  font-size: 2rem;
+}
+
 .get_token_btn {
   cursor: pointer;
   font-weight: bold;
@@ -55,6 +59,12 @@ input.access_token_input {
 .already_have_token {
   cursor: pointer;
   font-weight: 700;
+  margin: 0;
+}
+
+.main_table {
+  font-size: 12px;
+  margin-bottom: 10rem;
 }
 
 /*# sourceMappingURL=main.css.map */

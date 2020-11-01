@@ -4,10 +4,12 @@ const vueApp = new Vue({
     access_token: null,
     addingToken: false,
     submittingConnect: false,
+    requestingResource: false,
     jobs: [],
-    fakeData: {
+    resourceData: {
       employees: {
-        status: "success",
+        status: "error",
+        type: null,
         data: [
           {
             "error": "data did not fetch please try again and ensure you put valid credentials"
@@ -15,7 +17,8 @@ const vueApp = new Vue({
         ]
       },
       jobs: {
-        status: "success",
+        status: "error",
+        type: null,
         data: [
           {
             "error": "data did not fetch please try again and ensure you put valid credentials"
@@ -23,14 +26,34 @@ const vueApp = new Vue({
         ]
       },
       payrolls: {
-        status: "success",
+        status: "error",
+        type: null,
         data: [
           {
             "error": "data did not fetch please try again and ensure you put valid credentials"
           }
         ]
       }
-    }
+    },
+    employeesFields: [
+      {
+        key: 'full_name',
+        sortable: false,
+      },
+      {
+        key: 'title',
+        sortable: false,
+      },
+      {
+        key: 'work_email',
+        sortable: false,
+      },
+      {
+        key: 'salary',
+        sortable: false,
+      },
+    ],
+    employees: [],
   },
   computed: {
     credentialsAdded() {
@@ -41,43 +64,59 @@ const vueApp = new Vue({
       } else {
         return false
       }
+    },
+    dataToDisplay() {
+      const vm = this
+
+      return JSON.stringify(vm.resourceData.data, undefined, 2)
     }
   },
   methods: {
     fetchRequest(record) {
       const vm = this
 
+      vm.requestingResource = true
+
       fetch(`/${record}/fetch_resource/${vm.access_token}`)
-      .then(response => response.json())
-      .then((data) => {
-        vm.fakeData[record] = data
-        vm.fakeData[record]['status'] = "success"
-        console.log('data' + ' ' + record, vm.fakeData[record])
-      })
-      .catch((error) => {
-        console.error('Error msg:', error);
-      });
+        .then(response => response.json())
+        .then((data) => {
+          vm.requestingResource = false
+          vm.resourceData[record] = data
+          vm.resourceData[record]['status'] = "success"
+          console.log('data' + ' ' + record, vm.resourceData[record])
+        })
+        .catch((error) => {
+          vm.requestingResource = true
+          console.error('Error msg:', error);
+        })
     },
-    async getConnectToken(companyName) {
+    getConnectToken(companyName) {
       const vm = this
 
       vm.submittingConnect = true
 
-      let response = await fetch('/connect_tokens/create')
-      let result = await response.json()
-      const connectToken = result.data.id
-
-      vm.openAuthenticatorEmbed(connectToken, companyName) 
+      fetch('/connect_tokens/create')
+        .then(response => response.json())
+        .then((data) => {
+          vm.submittingConnect = false
+          vm.openAuthenticatorEmbed(data.data.id, companyName) 
+        })
+        .catch((error) => {
+          vm.submittingConnect = false
+          console.error('Error msg:', error)
+        })
     },
-    async getAccessToken(publicToken) {
+    getAccessToken(publicToken) {
       const vm = this
 
-      let response = await fetch(`/public_token/exchange/${publicToken}`)
-
-      let result = await response.json()
-      const accessToken = result.data.id
-
-      vm.access_token = accessToken
+      fetch(`/public_token/exchange/${publicToken}`)
+        .then(response => response.json())
+        .then((data) => {
+          vm.access_token = data.data.id
+        })
+        .catch((error) => {
+          console.error('Error msg:', error)
+        })
     },
     openAuthenticatorEmbed(connectToken, companyName) {
       const vm = this
@@ -96,7 +135,10 @@ const vueApp = new Vue({
       const vm = this
 
       vm.addingToken = true
-    }
+    },
+    onRowSelected(items) {
+      console.log('items', items)
+    },
   }
 })
 

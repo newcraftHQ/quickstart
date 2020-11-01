@@ -20,21 +20,23 @@
         id="http_request_btn"
         class="btn btn-purple btn-outline btn-primary btn-sm"
         type="button"
-        @click.prevent="fetchRequest('<%= record %>')"
+        @click.prevent="fetchRequest('<%= record %>', 'show')"
         data-target="#<%= panel_target %>"
-        data-toggle="collapse"
-      >Send Request</button>
+        data-toggle="collapse">
+        <span v-if="requestingResource" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Send Request
+      </button>
     </div>
   </div>
-  <div class="row collapse pb-2" id=<%= panel_target %>>
-    <div class="col-sm-12 d-none panel-results p-0">
+  <div class="row">
+    <div class="col-sm-12">
       <hr class="mb-2 mt-0">
       <div class="row">
         <div class="col-sm-3">
           status:
         </div>
         <div class="col-sm-9">
-          <code class="results-status"></code>
+          <code class="results-status">{{ resourceData.status }}</code>
         </div>
       </div>
       <hr class="my-2">
@@ -45,6 +47,7 @@
         <div class="col-sm-9">
           <pre>
             <code class="d-flex results-data">
+              {{ dataToDisplay }}
             </code>
           </pre>
         </div>
@@ -54,15 +57,8 @@
         <div class="col-sm-3">
           Formatted Data Table:
         </div>
-        <div class="col-sm-9">
+        <div id="resource-table" class="col-sm-9">
           <%= erb table_partial.to_sym %>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-12 show panel-loader">
-      <div class="d-flex justify-content-center">
-        <div class="spinner-border text-primary">
-          <div class="sr-only">Loading...</div>
         </div>
       </div>
     </div>

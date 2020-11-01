@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <title>NewCraft Quickstart Example</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
-    <script src="https://connect.newcraft.io/sandbox/nc-connect.js"></script>
-    <!-- <script src="http://development.newcraft-dev.com:8080/build/development/nc-connect.js"></script> -->
+    <!-- <script src="https://connect.newcraft.io/sandbox/nc-connect.js"></script> -->
+    <script src="http://development.newcraft-dev.com:8080/build/development/nc-connect.js"></script>
     <link rel="shortcut icon" type="image/png" href="icon.svg"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="scss/main.css">      
+    <link rel="stylesheet" href="scss/main.css">
+    <style type="text/css">
+      a {
+        color: #6236fe;
+      }
+    </style>
   </head>
 
   <body>
@@ -38,35 +43,28 @@
           </p>
         </div>
       </div>
-      <ul class="nav nav-tabs nav-justified">
-        <li class="nav-item">
-          <a href="#employees-tab" class="nav-link active" data-toggle="tab">Employees</a>
-        </li>
-        <li class="nav-item">
-          <a href="#jobs-tab" class="nav-link" data-toggle="tab">Jobs</a>
-        </li>
-        <li class="nav-item">
-          <a href="#payrolls-tab" class="nav-link" data-toggle="tab">Payrolls</a>
-        </li>
-      </ul>
-      <div class="tab-content">
-        <div class="tab-pane fade show active" id="employees-tab">
-          <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/employees/get", panel_target: "employees-get-panel", table_partial: 'tables/employees_table', record: 'employees' } %>
-        </div>
-        <div class="tab-pane fade" id="jobs-tab">
-          <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/jobs/get", panel_target: "jobs-get-panel", table_partial: 'tables/jobs_table', record: 'jobs' } %>
-        </div>
-        <div class="tab-pane fade" id="orgs-tab">
-          <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/orgs/get", panel_target: "orgs-get-panel", table_partial: 'tables/orgs_table', record: 'orgs' } %>
-        </div>
-        <div class="tab-pane fade" id="payrolls-tab">
-          <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/payrolls/get", panel_target: "payrolls-get-panel", table_partial: 'tables/payrolls_table', record: 'payrolls' } %>
-        </div>
-      </div>
+
+      <b-tabs content-class="mt-3">
+        <b-tab title="Employees" active>
+          <div class="tab-pane fade show active" id="employees-tab">
+            <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/employees/get", panel_target: "employees-get-panel", table_partial: 'tables/employees_table', record: 'employees' } %>
+          </div>
+        </b-tab>
+        <b-tab title="Jobs">
+          <div class="tab-pane fade show active" id="orgs-tab">
+            <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/orgs/get", panel_target: "orgs-get-panel", table_partial: 'tables/orgs_table', record: 'orgs' } %>
+          </div>
+        </b-tab>
+        <b-tab title="Payrolls">
+          <div class="tab-pane fade show active" id="payrolls-tab">
+            <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/payrolls/get", panel_target: "payrolls-get-panel", table_partial: 'tables/payrolls_table', record: 'payrolls' } %>
+          </div>
+        </b-tab>
+      </b-tabs>
+
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js" integrity="sha512-53CQcu9ciJDlqhK7UD8dZZ+TF2PFGZrOngEYM/8qucuQba+a+BXOIRsp9PoMNJI3ZeLMVNIxIfZLbG/CdHI5PA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.18.1/bootstrap-vue.min.js" integrity="sha512-EjDLjOtxOuNZDwpjHHPa4VAIomVXXv9gIGVuO/+smw04V8oIqhbuC/K1WTnr9k2YB30eltq2tiV3smzH1x9vuA==" crossorigin="anonymous"></script>
     <script src="js/vue.js"></script>
-    <script src="js/main.js"></script>
   </body>
 </html>
