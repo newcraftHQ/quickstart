@@ -17,6 +17,7 @@ API_URL = ENV['DEV_ENV'] === 'development' ?
 
 get '/' do
   @company_name = ENV['COMPANY_NAME']
+  @authenticator_env = ENV['API_ENV']
 
   erb :index
 end

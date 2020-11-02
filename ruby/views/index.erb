@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
-    <!-- <script src="https://connect.newcraft.io/sandbox/nc-connect.js"></script> -->
     <script src="http://development.newcraft-dev.com:8080/build/development/nc-connect.js"></script>
     <link rel="shortcut icon" type="image/png" href="icon.svg"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +24,7 @@
           <h1 class="display-5 font-weight-light">NewCraft Quickstart - <b>Ruby</b></h1>
           <p class="lead">Get up and running with NewCraft Connect and the API in minutes.</p>
           <hr class="my-4">
-          <p class="get_token_btn" @click.prevent="getConnectToken('<%= @company_name %>')">
+          <p class="get_token_btn" @click.prevent="getConnectToken('<%= @company_name %>', '<%= @authenticator_env %>')">
             <span v-if="submittingConnect" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Connect
           </p>

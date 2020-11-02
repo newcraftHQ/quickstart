@@ -62,7 +62,7 @@ const vueApp = new Vue({
           console.error('Error msg:', error);
         })
     },
-    getConnectToken(companyName) {
+    getConnectToken(companyName, authenticatorEnv) {
       const vm = this
 
       vm.submittingConnect = true
@@ -71,7 +71,7 @@ const vueApp = new Vue({
         .then(response => response.json())
         .then((data) => {
           vm.submittingConnect = false
-          vm.openAuthenticatorEmbed(data.data.id, companyName) 
+          vm.openAuthenticatorEmbed(data.data.id, companyName, authenticatorEnv) 
         })
         .catch((error) => {
           vm.submittingConnect = false
@@ -90,13 +90,15 @@ const vueApp = new Vue({
           console.error('Error msg:', error)
         })
     },
-    openAuthenticatorEmbed(connectToken, companyName) {
+    openAuthenticatorEmbed(connectToken, companyName, authenticatorEnv) {
       const vm = this
+
       vm.submittingConnect = false
 
       NCConnector.create({
         company_name: companyName,
         connect_token: connectToken,
+        authenticator_env: authenticatorEnv,
         successCallback: (token) => {
           vm.getAccessToken(token.id)
         },
