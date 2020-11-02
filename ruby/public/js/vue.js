@@ -6,35 +6,7 @@ const vueApp = new Vue({
     submittingConnect: false,
     requestingResource: false,
     jobs: [],
-    resourceData: {
-      employees: {
-        status: "error",
-        type: null,
-        data: [
-          {
-            "error": "data did not fetch please try again and ensure you put valid credentials"
-          }
-        ]
-      },
-      jobs: {
-        status: "error",
-        type: null,
-        data: [
-          {
-            "error": "data did not fetch please try again and ensure you put valid credentials"
-          }
-        ]
-      },
-      payrolls: {
-        status: "error",
-        type: null,
-        data: [
-          {
-            "error": "data did not fetch please try again and ensure you put valid credentials"
-          }
-        ]
-      }
-    },
+    resourceData: null,
     employeesFields: [
       {
         key: 'full_name',
@@ -81,9 +53,9 @@ const vueApp = new Vue({
         .then(response => response.json())
         .then((data) => {
           vm.requestingResource = false
-          vm.resourceData[record] = data
-          vm.resourceData[record]['status'] = "success"
-          console.log('data' + ' ' + record, vm.resourceData[record])
+          vm.resourceData = data
+          vm.resourceData.status = 'success'
+          vm.mouldResourceTableItems(data, record)
         })
         .catch((error) => {
           vm.requestingResource = true
@@ -139,7 +111,24 @@ const vueApp = new Vue({
     onRowSelected(items) {
       console.log('items', items)
     },
-  }
+    mouldResourceTableItems(data, record){
+      const vm = this
+
+      const itemsArray = []
+
+      data.data.forEach((item) => {
+        const itemToSave = {
+          full_name: item.attributes.first_name + item.attributes.last_name,
+          title: item.attributes.title,
+          work_email: item.attributes.work_email,
+          salary: item.attributes.salary,
+        }
+        itemsArray.push(itemToSave)
+      })
+
+      vm[record] = itemsArray
+    },
+  },
 })
 
 Vue.config.devtools = true

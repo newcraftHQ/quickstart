@@ -20,7 +20,7 @@
         id="http_request_btn"
         class="btn btn-purple btn-outline btn-primary btn-sm"
         type="button"
-        @click.prevent="fetchRequest('<%= record %>', 'show')"
+        @click.prevent="fetchRequest('<%= record %>')"
         data-target="#<%= panel_target %>"
         data-toggle="collapse">
         <span v-if="requestingResource" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -28,7 +28,7 @@
       </button>
     </div>
   </div>
-  <div class="row">
+  <div v-if="resourceData" class="row">
     <div class="col-sm-12">
       <hr class="mb-2 mt-0">
       <div class="row">
@@ -36,7 +36,9 @@
           status:
         </div>
         <div class="col-sm-9">
-          <code class="results-status">{{ resourceData.status }}</code>
+          <code class="results-status">
+            {{ resourceData.status }}
+          </code>
         </div>
       </div>
       <hr class="my-2">
@@ -47,7 +49,7 @@
         <div class="col-sm-9">
           <pre>
             <code class="d-flex results-data">
-              {{ dataToDisplay }}
+              {{ resourceData.data }}
             </code>
           </pre>
         </div>
