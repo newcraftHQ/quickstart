@@ -43,18 +43,32 @@
         </div>
       </div>
 
+      <b-modal class="modal_main__modal" ref="my-modal" hide-footer hide-header size="xl">
+        <section v-if="employeesModal" class="modal_contents-container">
+          <header>
+            Employees Modal
+          </header>
+        </section>
+        <section v-else-if="jobsModal">
+          <%= erb :'modals/jobs' %>
+        </section>
+        <section v-else-if="payrollsModal">
+          Payrolls Modal
+        </section>
+      </b-modal>
+
       <b-tabs content-class="mt-3">
-        <b-tab title="Employees" active>
+        <b-tab title="Employees" active @click.prevent="swapTab('employees')">
           <div class="tab-pane fade show active" id="employees-tab">
             <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/employees/get", panel_target: "employees-get-panel", table_partial: 'tables/employees_table', record: 'employees' } %>
           </div>
         </b-tab>
-        <b-tab title="Jobs">
+        <b-tab title="Jobs" @click.prevent="swapTab('jobs')">
           <div class="tab-pane fade show active" id="orgs-tab">
-            <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/orgs/get", panel_target: "orgs-get-panel", table_partial: 'tables/orgs_table', record: 'orgs' } %>
+            <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/jobs/get", panel_target: "orgs-get-panel", table_partial: 'tables/jobs_table', record: 'jobs' } %>
           </div>
         </b-tab>
-        <b-tab title="Payrolls">
+        <b-tab title="Payrolls" @click.prevent="swapTab('payrolls')">
           <div class="tab-pane fade show active" id="payrolls-tab">
             <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/payrolls/get", panel_target: "payrolls-get-panel", table_partial: 'tables/payrolls_table', record: 'payrolls' } %>
           </div>

@@ -1,0 +1,19 @@
+<div class="modal__container">
+  <header class="modal__header">
+    Job Modal
+  </header>
+
+  <div>
+    <b-tabs pills card vertical class="modal_tab__container">
+      <b-tab title="Show Job" active @click.prevent="fetchJobDetails()">
+        <div class="modal_content__container">
+          <%= erb :'jobs/show' %>
+        </div>
+      </b-tab>
+      <b-tab title="Candidates">
+        <b-card-text>Tab contents 2</b-card-text>
+      </b-tab>
+      <b-tab title="Tab 3"><b-card-text>Tab contents 3</b-card-text></b-tab>
+    </b-tabs>
+  </div>
+</div>

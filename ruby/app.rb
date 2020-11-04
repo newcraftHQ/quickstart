@@ -58,9 +58,9 @@ get '/:record/fetch_resource/:access_token' do
   content_type :json
 
   if API_ENV === 'sandbox'
-    NEW_API_URL = API_URL.dup.sub! 'development', 'sandbox'
+    new_api_url = API_URL.dup.sub! 'development', 'sandbox'
   else
-    NEW_API_URL = API_URL
+    new_api_url = API_URL
   end
 
   return unless ENV['CLIENT_ID']
@@ -76,6 +76,21 @@ get '/:record/fetch_resource/:access_token' do
     }
   }
 
-  response = HTTParty.post(NEW_API_URL + '/' + params[:record] + '/get', options)
+  response = HTTParty.post(new_api_url + '/' + params[:record] + '/get', options)
+  JsonResponse.parsing(response.parsed_response)
+end
+
+get '/show_job/:job_id' do
+  content_type :json
+
+  options = {
+    body: {
+      client_id: ENV['CLIENT_ID'],
+      client_secret: ENV['CLIENT_SECRET'],
+      public_token: params[:public_token]
+    }
+  }
+
+  response = HTTParty.post(API_URL + '/api/v1/jobs/' + params[:job_id] + '/get', options)
   JsonResponse.parsing(response.parsed_response)
 end

@@ -67,4 +67,30 @@ input.access_token_input {
   margin-bottom: 10rem;
 }
 
+.modal_tab__container {
+  margin-top: 1em;
+}
+
+.modal__container {
+  font-size: 12px;
+}
+
+.modal__header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  padding-bottom: 1em;
+  font-weight: 700;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  background-color: #6236fe;
+}
+
+.modal_tab__container .nav-link {
+  padding: 0.2rem 1rem !important;
+  margin: 0.2rem 0;
+}
+.modal_tab__container .nav-link .card-body {
+  padding: 0;
+}
+
 /*# sourceMappingURL=main.css.map */
