@@ -1,3 +1,6 @@
+h1 {
+  font-size: 2rem;
+}
 .get_token_btn {
   cursor: pointer;
   font-weight: bold;
@@ -10,13 +13,11 @@
 }
 .get_token_form {
   width: 100%;
-
   input {
     width: 40%;
     border: none;
     border-bottom: 1px solid #eaeaea; 
   }
-
   button {
     background: #6236ff;
     color: white;
@@ -51,4 +52,9 @@ input.access_token_input {
 .already_have_token {
   cursor: pointer;
   font-weight: 700;
+  margin: 0;
+}
+.main_table {
+  font-size: 12px;
+  margin-bottom: 10rem;
 }

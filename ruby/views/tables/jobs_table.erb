@@ -1,29 +1,14 @@
-<div class="jobs-table border d-none">
-  <div class="row m-0 jobs-id pt-2 pb-2 bg-light">
-    <div class="col-sm-2 font-weight-bold">ID</div>
-  </div>
-  <hr class="m-0">
-  <div class="row m-0 jobs-location pt-2 pb-2">
-    <div class="col-sm-2 font-weight-bold">Location</div>
-  </div>
-  <hr class="m-0">
-  <div class="row m-0 jobs-description_html pt-2 pb-2 bg-light">
-    <div class="col-sm-2 font-weight-bold">Description Html</div>
-  </div>
-  <hr class="m-0">
-  <div class="row m-0 jobs-description_text pt-2 pb-2">
-    <div class="col-sm-2 font-weight-bold">Description Text</div>
-  </div>
-  <hr class="m-0">
-  <div class="row m-0 jobs-remote pt-2 pb-2 bg-light">
-    <div class="col-sm-2 font-weight-bold">Remote</div>
-  </div>
-  <hr class="m-0">
-  <div class="row m-0 jobs-name pt-2 pb-2">
-    <div class="col-sm-2 font-weight-bold">Name</div>
-  </div>
-  <hr class="m-0">
-  <div class="row m-0 jobs-created_on pt-2 pb-2">
-    <div class="col-sm-2 font-weight-bold">Created On</div>
-  </div>
+<div class="jobs-table main_table">
+  <b-table
+    ref="selectableTable"
+    selectable
+    select-mode="single"
+    striped
+    hover
+    :items="jobs"
+    :fields="jobsFields"
+    responsive="sm"
+    @row-selected="onRowSelected"
+  >
+  </b-table>
 </div>
