@@ -10,10 +10,12 @@
           <%= erb :'jobs/show' %>
         </div>
       </b-tab>
-      <b-tab title="Candidates">
-        <b-card-text>Tab contents 2</b-card-text>
+      <b-tab title="Candidates" @click.prevent="fetchJobCandidates()">
+        <div class="modal_content__container">
+          <%= erb :'jobs/candidates' %>
+        </div>
       </b-tab>
-      <b-tab title="Tab 3"><b-card-text>Tab contents 3</b-card-text></b-tab>
+      <b-tab title="Create Candidate"><b-card-text>Create form will be here</b-card-text></b-tab>
     </b-tabs>
   </div>
 </div>

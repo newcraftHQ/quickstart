@@ -25,6 +25,8 @@ end
 get '/connect_tokens/create' do
   content_type :json
 
+  build_api_url
+
   return unless ENV['CLIENT_ID']
   return unless ENV['CLIENT_SECRET']
 
@@ -35,7 +37,7 @@ get '/connect_tokens/create' do
     }
   }
 
-  response = HTTParty.post(API_URL + '/connect_tokens/create', options)
+  response = HTTParty.post(@new_api_url + '/connect_tokens/create', options)
   JsonResponse.parsing(response.parsed_response)
 end
 
@@ -57,11 +59,7 @@ end
 get '/:record/fetch_resource/:access_token' do
   content_type :json
 
-  if API_ENV === 'sandbox'
-    new_api_url = API_URL.dup.sub! 'development', 'sandbox'
-  else
-    new_api_url = API_URL
-  end
+  build_api_url
 
   return unless ENV['CLIENT_ID']
   return unless ENV['CLIENT_SECRET']
@@ -76,12 +74,14 @@ get '/:record/fetch_resource/:access_token' do
     }
   }
 
-  response = HTTParty.post(new_api_url + '/' + params[:record] + '/get', options)
+  response = HTTParty.post(@new_api_url + '/' + params[:record] + '/get', options)
   JsonResponse.parsing(response.parsed_response)
 end
 
 get '/show_job/:job_id' do
   content_type :json
+
+  build_api_url
 
   options = {
     body: {
@@ -91,6 +91,48 @@ get '/show_job/:job_id' do
     }
   }
 
-  response = HTTParty.post(API_URL + '/api/v1/jobs/' + params[:job_id] + '/get', options)
+  response = HTTParty.post(@new_api_url + '/jobs/' + params[:job_id] + '/get', options)
   JsonResponse.parsing(response.parsed_response)
+end
+
+get '/get_candidates/:job_id' do
+  content_type :json
+
+  build_api_url
+
+  options = {
+    body: {
+      client_id: ENV['CLIENT_ID'],
+      client_secret: ENV['CLIENT_SECRET'],
+      public_token: params[:public_token]
+    }
+  }
+
+  response = HTTParty.post(@new_api_url + '/jobs/' + params[:job_id] + '/candidates/get', options)
+  JsonResponse.parsing(response.parsed_response)
+end
+
+get '/jobs/:job_id/candidates/:candidate_id/get' do
+  content_type :json
+
+  build_api_url
+
+  options = {
+    body: {
+      client_id: ENV['CLIENT_ID'],
+      client_secret: ENV['CLIENT_SECRET'],
+      public_token: params[:public_token]
+    }
+  }
+
+  response = HTTParty.post(@new_api_url + '/jobs/' + params[:job_id] + '/candidates/' + params[:candidate_id] + '/get', options)
+  JsonResponse.parsing(response.parsed_response)
+end
+
+def build_api_url
+  if API_ENV === 'sandbox'
+    @new_api_url = API_URL.dup.sub! 'development', 'sandbox'
+  else
+    @new_api_url = API_URL
+  end
 end
