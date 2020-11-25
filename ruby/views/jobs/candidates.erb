@@ -1,0 +1,16 @@
+<div class="candidates-table main_table">
+  <span v-if="fetchingDetails" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+
+  <b-table
+    ref="selectableTable"
+    selectable
+    select-mode="single"
+    striped
+    hover
+    :items="candidates"
+    :fields="candidatesFields"
+    responsive="sm"
+    @row-selected="onCandidateSelected"
+  >
+  </b-table>
+</div>

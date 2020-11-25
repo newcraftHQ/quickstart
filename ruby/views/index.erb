@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
-    <script src="http://development.newcraft-dev.com:8080/build/development/nc-connect.js"></script>
+    <script src="https://connect.newcraft.io/sandbox/nc-connect.js"></script>
+    <!-- <script src="http://development.newcraft-dev.com:8080/build/development/nc-connect.js"></script> -->
     <link rel="shortcut icon" type="image/png" href="icon.svg"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="scss/main.css">
@@ -43,7 +44,7 @@
         </div>
       </div>
 
-      <b-modal class="modal_main__modal" ref="my-modal" hide-footer hide-header size="xl">
+      <b-modal class="modal_main__modal" ref="large-modal" hide-footer hide-header size="xl">
         <section v-if="employeesModal" class="modal_contents-container">
           <header>
             Employees Modal
@@ -54,6 +55,12 @@
         </section>
         <section v-else-if="payrollsModal">
           Payrolls Modal
+        </section>
+      </b-modal>
+
+      <b-modal class="modal_main__modal" ref="small-modal" hide-footer hide-header size="lg">
+        <section class="modal_contents-container">
+          <%= erb :'jobs/candidates/show' %>
         </section>
       </b-modal>
 
@@ -78,6 +85,6 @@
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js" integrity="sha512-53CQcu9ciJDlqhK7UD8dZZ+TF2PFGZrOngEYM/8qucuQba+a+BXOIRsp9PoMNJI3ZeLMVNIxIfZLbG/CdHI5PA==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.18.1/bootstrap-vue.min.js" integrity="sha512-EjDLjOtxOuNZDwpjHHPa4VAIomVXXv9gIGVuO/+smw04V8oIqhbuC/K1WTnr9k2YB30eltq2tiV3smzH1x9vuA==" crossorigin="anonymous"></script>
-    <script src="js/vue.js"></script>
+    <script type="module" src="js/vue.js"></script>
   </body>
 </html>
