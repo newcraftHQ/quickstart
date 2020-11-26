@@ -1,79 +1,33 @@
-export function mouldResourceTableItems(data, record) {
+export function mouldPanelResourceTableItems(data, record) {
   const vm = this
 
   const itemsArray = []
 
-  switch (record) {
-    case 'employees': {
-      data.data.forEach((item) => {
-        const itemToSave = {
-          id: item.id,
-          full_name: item.attributes.first_name + ' ' + item.attributes.last_name,
-          title: item.attributes.title,
-          work_email: item.attributes.work_email,
-          salary: item.attributes.salary,
-          record: record,
-        }
-        itemsArray.push(itemToSave)
-      })
+  data.data.forEach((item) => {
+    vm.buildPanelFieldsArray(item)
 
-      vm[record] = itemsArray
+    let itemToSave = {}
 
-      return
-    }
-    case 'jobs': {
-      data.data.forEach((item) => {
-        const itemToSave = {
-          id: item.id,
-          name: item.attributes.name,
-          location: item.attributes.location,
-          remote: item.attributes.remote,
-          status: item.attributes.status,
-          record: record,
-        }
-        itemsArray.push(itemToSave)
-      })
+    itemToSave.id = item.id
+    itemToSave.record = record
+    itemToSave[vm.panelTableFields[0]['key']] = item.attributes[vm.panelTableFields[0]['key']]
+    itemToSave[vm.panelTableFields[1]['key']] = item.attributes[vm.panelTableFields[1]['key']]
+    itemToSave[vm.panelTableFields[2]['key']] = item.attributes[vm.panelTableFields[2]['key']]
+    itemToSave[vm.panelTableFields[3]['key']] = item.attributes[vm.panelTableFields[3]['key']]
 
-      vm[record] = itemsArray
+    itemsArray.push(itemToSave)
+  })
 
-      return
-    }
-    case 'payrolls': {
-      data.data.forEach((item) => {
-        const itemToSave = {
-          id: item.id,
-          check_data: item.attributes.check_data,
-          pay_period_end_date: item.attributes.pay_period_end_date,
-          pay_period_start_date: item.attributes.pay_period_start_date,
-          record: record,
-        }
-        itemsArray.push(itemToSave)
-      })
-
-      vm[record] = itemsArray
-
-      return
-    }
-    case 'candidates': {
-      data.data.forEach((item) => {
-        const itemToSave = {
-          id: item.id,
-          full_name: item.attributes.first_name + ' ' + item.attributes.first_name,
-          email: item.attributes.email,
-          phone_number: item.attributes.phone_number,
-          address: item.attributes.address,
-          record: 'candidates',
-        }
-        itemsArray.push(itemToSave)
-      })
-
-      vm[record] = itemsArray
-
-      return
-    }
-  }
+  vm.panelTableItems = itemsArray
 }
 export function onRowSelected(items) {
+  const vm = this
+
+  vm.selectedItem = items[0]
+
+  vm.$refs['large-modal'].show()
+}
+export function onPanelRowSelected(items) {
   const vm = this
 
   vm.selectedItem = items[0]
@@ -122,4 +76,23 @@ export function swapTab(record) {
       return
     }
   }
+}
+export function buildPanelFieldsArray(object) {
+  const vm = this
+
+  const objKeys = Object.keys(object.attributes)
+  const slicedKeys = objKeys.slice(0, 4)
+
+  let fieldsArray = []
+
+  slicedKeys.forEach((item) => {
+    const obj = {
+      key: item,
+      sortable: true,
+    }
+
+    fieldsArray.push(obj)
+  })
+
+  vm.panelTableFields = fieldsArray
 }

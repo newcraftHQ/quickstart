@@ -9,7 +9,7 @@ export function fetchResource(record) {
       vm.requestingResource = false
       vm.resourceData = data
       vm.resourceData.status = 'success'
-      vm.mouldResourceTableItems(data, record)
+      vm.mouldPanelResourceTableItems(data, record)
     })
     .catch((error) => {
       vm.requestingResource = true
@@ -51,7 +51,7 @@ export function fetchJobCandidates() {
   fetch(`/get_candidates/${vm.selectedCandidateId}`)
     .then(response => response.json())
     .then((data) => {
-      vm.mouldResourceTableItems(data, 'candidates')
+      vm.mouldPanelResourceTableItems(data, 'candidates')
       vm.fetchingDetails = false
     })
     .catch((error) => {
