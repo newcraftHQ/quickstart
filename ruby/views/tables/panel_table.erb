@@ -1,0 +1,14 @@
+<div class="panel-table main_table">
+  <b-table
+    ref="selectableTable"
+    selectable
+    select-mode="single"
+    striped
+    hover
+    :items="panelItems"
+    :fields="panelFields"
+    responsive="sm"
+    @row-selected="onRowSelected"
+  >
+  </b-table>
+</div>
