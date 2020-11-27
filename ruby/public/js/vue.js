@@ -24,24 +24,6 @@ const vueApp = new Vue({
     jobs: [],
     payrollsFields: [],
     payrolls: [],
-    candidatesFields: [
-      {
-        key: 'full_name',
-        sortable: false,
-      },
-      {
-        key: 'email',
-        sortable: false,
-      },
-      {
-        key: 'phone_number',
-        sortable: false,
-      },
-      {
-        key: 'address',
-        sortable: false,
-      }
-    ],
     candidates: [],
   },
   computed: {
