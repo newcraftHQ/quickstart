@@ -45,6 +45,7 @@ export function openAuthenticatorEmbed(connectToken, companyName, authenticatorE
 
         return
       }
+
       vm.getAccessToken(token.id)
     },
     failureCallback: (error_message) => { console.error(error_message) }
