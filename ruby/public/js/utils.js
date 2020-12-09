@@ -10,10 +10,12 @@ export function mouldPanelResourceTableItems(data, record) {
 
     itemToSave.id = item.id
     itemToSave.record = record
-    itemToSave[vm.panelTableFields[0]['key']] = item.attributes[vm.panelTableFields[0]['key']]
-    itemToSave[vm.panelTableFields[1]['key']] = item.attributes[vm.panelTableFields[1]['key']]
-    itemToSave[vm.panelTableFields[2]['key']] = item.attributes[vm.panelTableFields[2]['key']]
-    itemToSave[vm.panelTableFields[3]['key']] = item.attributes[vm.panelTableFields[3]['key']]
+
+    let myIndexArray = [...Array(4).keys()]
+
+    myIndexArray.forEach((x) => {
+      itemToSave[vm.panelTableFields[x]['key']] = item.attributes[vm.panelTableFields[x]['key']]
+    })
 
     itemsArray.push(itemToSave)
   })
