@@ -16,60 +16,27 @@ export function fetchResource(record) {
       console.error('Error msg:', error);
     })
 }
-export function fetchChildRecords(item) {
+export function fetchShowDetails(record, record_id) {
   const vm = this
 
-  switch (item.record) {
-    case 'jobs': {
-
-      return
-    }
-  }
-}
-export function fetchJobDetails() {
-  const vm = this
-
-  vm.fetchingDetails = true
-  vm.selectedJobId = vm.selectedItem.id
-
-  fetch(`/show_job/${vm.selectedJobId}`)
+  return fetch(`/show_record/${record}/${record_id}`)
     .then(response => response.json())
     .then((data) => {
-      vm.fetchedJobDetails = data
-      vm.fetchingDetails = false
+      return Promise.resolve(data)
     })
     .catch((error) => {
-      console.error('Error msg:', error)
+      console.error(`Error fetching ${record} with id: ${record_id}`, error)
     })
 }
-export function fetchJobCandidates() {
+export function fetchSecondaryDetails(record, record_id, secondary_record) {
   const vm = this
 
-  vm.fetchingDetails = true
-  vm.selectedCandidateId = vm.selectedItem.id
-
-  fetch(`/get_candidates/${vm.selectedCandidateId}`)
+  return fetch(`/${record}/fetch_secondary_resource/${record_id}/${secondary_record}/${vm.access_token}`)
     .then(response => response.json())
     .then((data) => {
-      vm.mouldPanelResourceTableItems(data, 'candidates')
-      vm.fetchingDetails = false
+      return Promise.resolve(data)
     })
     .catch((error) => {
-      console.error('Error msg:', error)
-    })
-}
-export function fetchCandidateDetails() {
-  const vm = this
-
-  vm.fetchingDetails = true
-
-  fetch(`/jobs/${vm.selectedJobId}/candidates/${vm.selectedCandidateId}/get`)
-    .then(response => response.json())
-    .then((data) => {
-      vm.fetchedCandidateDetails = data
-      vm.fetchingDetails = false
-    })
-    .catch((error) => {
-      console.error('Error msg:', error)
+      console.error(`Error fetching ${secondary_record} from ${record} with id: ${record_id}`, error)
     })
 }

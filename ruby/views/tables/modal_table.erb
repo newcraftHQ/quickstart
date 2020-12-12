@@ -1,0 +1,14 @@
+<div class="modal-table modal_table">
+  <b-table
+    ref="selectableTable"
+    selectable
+    select-mode="single"
+    striped
+    hover
+    :items="modalTableItems"
+    :fields="modalTableFields"
+    responsive="sm"
+    @row-selected="onModalRowSelected"
+  >
+  </b-table>
+</div>
