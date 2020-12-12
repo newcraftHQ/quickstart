@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
-    <script src="https://connect.newcraft.io/sandbox/nc-connect.js"></script>
-    <!-- <script src="http://development.newcraft-dev.com:8080/build/development/nc-connect.js"></script> -->
+    <!-- <script src="https://connect.newcraft.io/sandbox/nc-connect.js"></script> -->
+    <script src="http://development.newcraft-dev.com:8080/build/development/nc-connect.js"></script>
     <link rel="shortcut icon" type="image/png" href="icon.svg"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="scss/main.css">
@@ -56,6 +56,9 @@
         <section v-else-if="payrollsModal">
           Payrolls Modal
         </section>
+        <section v-else-if="orgsModal">
+          Orgs Modal
+        </section>
       </b-modal>
 
       <b-modal class="modal_main__modal" ref="small-modal" hide-footer hide-header size="lg">
@@ -71,13 +74,18 @@
           </div>
         </b-tab>
         <b-tab title="Jobs" @click.prevent="swapTab('jobs')">
-          <div class="tab-pane fade show active" id="orgs-tab">
-            <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/jobs/get", panel_target: "orgs-get-panel", table_partial: 'tables/panel_table', record: 'jobs' } %>
+          <div class="tab-pane fade show active" id="jobs-tab">
+            <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/jobs/get", panel_target: "jobs-get-panel", table_partial: 'tables/panel_table', record: 'jobs' } %>
           </div>
         </b-tab>
         <b-tab title="Payrolls" @click.prevent="swapTab('payrolls')">
           <div class="tab-pane fade show active" id="payrolls-tab">
             <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/payrolls/get", panel_target: "payrolls-get-panel", table_partial: 'tables/panel_table', record: 'payrolls' } %>
+          </div>
+        </b-tab>
+        <b-tab title="Organisations" @click.prevent="swapTab('orgs')">
+          <div class="tab-pane fade show active" id="orgs-tab">
+            <%= erb :endpoint_item, locals: { method: "GET", endpoint: "/orgs/get", panel_target: "orgs-get-panel", table_partial: 'tables/panel_table', record: 'orgs' } %>
           </div>
         </b-tab>
       </b-tabs>

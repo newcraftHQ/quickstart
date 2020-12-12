@@ -61,39 +61,27 @@ get '/:record/fetch_resource/:access_token' do
   JsonResponse.parsing(response)
 end
 
-get '/show_job/:job_id' do
+get '/show_record/:record/:record_id' do
   content_type :json
 
-  credentials = merge_credentials('public_token', params[:public_token])
+  credentials = merge_credentials('access_token', params[:access_token])
   credentials_options = {
     body: credentials
   }
 
-  response = HTTParty.post(build_api_url + '/jobs/' + params[:job_id] + '/get', credentials_options)
+  response = HTTParty.post(build_api_url + '/' + params[:record] + '/' + params[:record_id] + '/get', credentials_options)
   JsonResponse.parsing(response)
 end
 
-get '/get_candidates/:job_id' do
+get '/:record/fetch_secondary_resource/:record_id/:secondary_record/:access_token' do
   content_type :json
 
-  credentials = merge_credentials('public_token', params[:public_token])
+  credentials = merge_credentials('access_token', params[:access_token])
   credentials_options = {
     body: credentials
   }
 
-  response = HTTParty.post(build_api_url + '/jobs/' + params[:job_id] + '/candidates/get', credentials_options)
-  JsonResponse.parsing(response)
-end
-
-get '/jobs/:job_id/candidates/:candidate_id/get' do
-  content_type :json
-
-  credentials = merge_credentials('public_token', params[:public_token])
-  credentials_options = {
-    body: credentials
-  }
-
-  response = HTTParty.post(build_api_url + '/jobs/' + params[:job_id] + '/candidates/' + params[:candidate_id] + '/get', credentials_options)
+  response = HTTParty.post(build_api_url + '/' + params[:record] + '/' + params[:record_id] + '/' + params[:secondary_record] + '/get', credentials_options)
   JsonResponse.parsing(response)
 end
 

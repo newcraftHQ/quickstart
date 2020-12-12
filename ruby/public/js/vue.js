@@ -1,6 +1,7 @@
 import { getConnectToken, getAccessToken, openAuthenticatorEmbed, addAccessToken } from './authentication.js'
-import { fetchResource, fetchChildRecords, fetchJobDetails, fetchJobCandidates, fetchCandidateDetails } from './httpRequests.js'
-import { mouldPanelResourceTableItems, onRowSelected, onPanelRowSelected, onJobSelected, onCandidateSelected, swapTab, buildPanelFieldsArray } from './utils.js'
+import { fetchResource, fetchShowDetails, fetchSecondaryDetails } from './httpRequests.js'
+import { mouldPanelResourceTableItems, buildPanelFieldsArray, onPanelRowSelected, mouldModalResourceTableItems, buildModalFieldsArray, onModalRowSelected, onShowRowSelected, swapTab } from './utils.js'
+import { fetchCandidates, showJob } from './jobs.js'
 
 const vueApp = new Vue({
   el: '#app',
@@ -9,7 +10,6 @@ const vueApp = new Vue({
     addingToken: false,
     submittingConnect: false,
     requestingResource: false,
-    selectedItem: null,
     selectedJobId: null,
     fetchingDetails: false,
     fetchedJobDetails: null,
@@ -20,11 +20,19 @@ const vueApp = new Vue({
     resourceData: null,
     panelTableFields: [],
     panelTableItems: [],
+    panelTableItemSelected: [],
+    showTableItems: [],
+    showTableFields: [],
+    showTableItemSelected: [],
+    modalTableItems: [],
+    modalTableFields: [],
+    onModalRowSelected: [],
     employees: [],
     jobs: [],
     payrollsFields: [],
     payrolls: [],
     candidates: [],
+    recordType: null,
   },
   computed: {
     credentialsAdded() {
@@ -43,22 +51,23 @@ const vueApp = new Vue({
     }
   },
   methods: {
-    fetchResource,
     getConnectToken,
     getAccessToken,
     openAuthenticatorEmbed,
     addAccessToken,
+    fetchResource,
+    fetchShowDetails,
+    fetchSecondaryDetails,
     mouldPanelResourceTableItems,
-    onJobSelected,
-    onRowSelected,
-    onPanelRowSelected,
-    onCandidateSelected,
-    fetchChildRecords,
-    swapTab,
-    fetchJobDetails,
-    fetchJobCandidates,
-    fetchCandidateDetails,
     buildPanelFieldsArray,
+    mouldModalResourceTableItems,
+    buildModalFieldsArray,
+    onModalRowSelected,
+    onPanelRowSelected,
+    onShowRowSelected,
+    swapTab,
+    fetchCandidates,
+    showJob,
   },
 })
 
